@@ -5,9 +5,10 @@ class Game
   	@player2 = player2
   	@rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-  	@wins = [[1, 2, 3], [4, 5, 6], [7, 8, 9], 
+  	@wins = [1, 2, 3], [4, 5, 6], [7, 8, 9], 
   			[1, 4, 7], [2, 5, 8], [3, 6, 9],
-  			[1, 5, 9], [3, 5, 7]]
+  			[1, 5, 9], [3, 5, 7]
+
   	game_board
   	start_player1
   end
@@ -17,7 +18,7 @@ class Game
   	puts "Player 2: #{@player2}"
   end
 
-  def game_board(*)
+  def game_board
     @rows.each do |r|
   	  puts r.each { |c| c }.join(" ")
   	end
@@ -30,14 +31,15 @@ class Game
   end
   
   def start_player2	
-  	puts "#{@player2}: Please enter a number for your X to go"
+  	puts "#{@player2}: Please enter a number for your O to go"
   	player2_input = gets.chomp
   	locate_player2_input(player2_input)		
   end
 
   def locate_player1_input(num)
-  	@rows.map!{|x| x.map{|y| y == num.to_i ? 'X' : y}}
-  	
+  	@rows.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
+  	@wins.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
+
   	@rows.each do |r|
   	  puts r.each { |c| c }.join(" ")
   	end
@@ -49,12 +51,13 @@ class Game
   end
 
   def locate_player2_input(num)
-  	@rows.map!{|x| x.map{|y| y == num.to_i ? 'O' : y}}
-  	
+  	@rows.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
+  	@wins.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
+
   	@rows.each do |r|
   	  puts r.each { |c| c }.join(" ")
   	end
-  	if win? == true
+  	if win2? == true
   		puts "Congratulations #{@player2}, you got 3 in a row!"
   	else
   		start_player1
@@ -63,11 +66,22 @@ class Game
 
   def win?
   	@wins.each do |row|
-  	p	row.all? { |input| input == 'X' }
+  		return true if row.all? { |input| input == "X"}
   	end
+
+  	false
+  end
+
+  def win2?
+  	@wins.each do |row|
+  		return true if row.all? { |input| input == "O"}
+  	end
+
+  	false
   end
 end
 
+#/^\d$/
 x = Game.new("Nick", "Harry")
 x
 
