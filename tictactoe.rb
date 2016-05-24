@@ -37,12 +37,18 @@ class Game
   end
 
   def locate_player1_input(num)
-  	@rows.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
-  	@wins.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
+  	if valid_input?(num) == true
+  		@rows.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
+  		@wins.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
 
-  	@rows.each do |r|
-  	  puts r.each { |c| c }.join(" ")
+  		@rows.each do |r|
+  	  		puts r.each { |c| c }.join(" ")
+  		end
+  	else
+  		puts "Please select a digit between 1 and 9"
+  		start_player1
   	end
+
   	if win? == true
   		puts "Congratulations #{@player1}, you got 3 in a row!"
   	else
@@ -51,12 +57,18 @@ class Game
   end
 
   def locate_player2_input(num)
-  	@rows.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
-  	@wins.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
+  	if valid_input?(num) == true
+  		@rows.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
+  		@wins.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
 
-  	@rows.each do |r|
-  	  puts r.each { |c| c }.join(" ")
-  	end
+  		@rows.each do |r|
+  	  		puts r.each { |c| c }.join(" ")
+  		end
+  	else
+  		puts "Please select a digit between 1 and 9"
+  		start_player2
+  	end	
+
   	if win2? == true
   		puts "Congratulations #{@player2}, you got 3 in a row!"
   	else
@@ -79,9 +91,15 @@ class Game
 
   	false
   end
+
+  def valid_input?(num)
+  	return true if num.match(/^\d$/)
+
+  	false
+  end
 end
 
-#/^\d$/
+
 x = Game.new("Nick", "Harry")
 x
 
