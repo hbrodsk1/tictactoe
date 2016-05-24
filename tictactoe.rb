@@ -3,8 +3,13 @@ class Game
   def initialize(player1, player2)
   	@player1 = player1
   	@player2 = player2
+  	@rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+  	@wins = [[1, 2, 3], [4, 5, 6], [7, 8, 9], 
+  			[1, 4, 7], [2, 5, 8], [3, 6, 9],
+  			[1, 5, 9], [3, 5, 7]]
   	game_board
-  	start
+  	start_player1
   end
 
   def players
@@ -13,54 +18,55 @@ class Game
   end
 
   def game_board(*)
-    rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
-    rows.each do |r|
+    @rows.each do |r|
   	  puts r.each { |c| c }.join(" ")
   	end
   end
 
-  def start
+  def start_player1
   	puts "#{@player1}: Please enter a number for your X to go"
   	player1_input = gets.chomp
-  	locate_player_input(player1_input)
+  	locate_player1_input(player1_input)
+  end
+  
+  def start_player2	
+  	puts "#{@player2}: Please enter a number for your X to go"
+  	player2_input = gets.chomp
+  	locate_player2_input(player2_input)		
   end
 
-  def locate_player_input(num)
-  	rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  	rows.map!{|x| x.map{|y| y == num.to_i ? 'X' : y}}
+  def locate_player1_input(num)
+  	@rows.map!{|x| x.map{|y| y == num.to_i ? 'X' : y}}
   	
-  	rows.each do |r|
+  	@rows.each do |r|
   	  puts r.each { |c| c }.join(" ")
   	end
-  	
-  	
+  	if win? == true
+  		puts "Congratulations #{@player1}, you got 3 in a row!"
+  	else
+  		start_player2
+  	end	
   end
 
-  def updated_game_board(num)
-  	rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  	print num
+  def locate_player2_input(num)
+  	@rows.map!{|x| x.map{|y| y == num.to_i ? 'O' : y}}
+  	
+  	@rows.each do |r|
+  	  puts r.each { |c| c }.join(" ")
+  	end
+  	if win? == true
+  		puts "Congratulations #{@player2}, you got 3 in a row!"
+  	else
+  		start_player1
+  	end	 	
+  end
+
+  def win?
+  	@wins.each do |row|
+  	p	row.all? { |input| input == 'X' }
+  	end
   end
 end
-
-
-class Player
-  
-  def initialize(name)
-  	@name = name
-  end
-
-  def name
-  	@name
-  end
-
-  def choose_space(num)
-
-  end
-
-end
-
-
 
 x = Game.new("Nick", "Harry")
 x
