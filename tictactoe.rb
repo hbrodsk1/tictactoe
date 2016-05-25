@@ -30,8 +30,7 @@ class Game
   def start_player1
   	puts "#{@player1}: Please enter a number for your X to go"
   	player1_input = gets.chomp
-    validate_input(player1_input)
-    @selected_numbers << player1_input
+   
 
   	locate_player1_input(player1_input)
   end
@@ -39,8 +38,7 @@ class Game
   def start_player2	
   	puts "#{@player2}: Please enter a number for your O to go"
   	player2_input = gets.chomp
-    validate_input2(player2_input)
-    @selected_numbers << player2_input
+    
     
   	locate_player2_input(player2_input)		
   end
@@ -69,6 +67,9 @@ class Game
 
   def locate_player1_input(num)
   	if valid_input?(num) == true
+      validate_input(num)
+      @selected_numbers << num
+
   		@rows.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
   		@wins.map!{|x| x.map{|y| y == num.to_i ? "X" : y}}
 
@@ -92,6 +93,9 @@ class Game
 
   def locate_player2_input(num)
   	if valid_input?(num) == true
+      validate_input2(num)
+      @selected_numbers << num
+
   		@rows.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
   		@wins.map!{|x| x.map{|y| y == num.to_i ? "O" : y}}
 
